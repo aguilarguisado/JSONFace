@@ -1,0 +1,55 @@
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source because it's harder to work with binary dependencies
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Monkey C / Garmin specific #
+##############################
+# Build artifacts
+bin/
+
+# Device settings
+settings/
+
+# Project files that contain user-specific info
+*.prj
+
+# Garmin Connect IQ SDK files
+# Exclude the SDK if it's included in the project directory
+# Adjust the path if your SDK is located in a different directory
+connectiq-sdk/
+
+# Any other files or directories specific to your development environment
+# e.g., editor backup files, temporary files, custom scripts
