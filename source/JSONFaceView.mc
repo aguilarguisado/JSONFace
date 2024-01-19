@@ -222,7 +222,7 @@ class JSONFaceView extends WatchUi.WatchFace {
         if(heartRate == null){
             heartRate = "--";
         }else{
-            heartRate = heartRate.format("%.0f");
+            heartRate = heartRate.toNumber();
         }
 
         return heartRate;
@@ -230,7 +230,7 @@ class JSONFaceView extends WatchUi.WatchFace {
 
     private function getBattery() {
         var battery = System.getSystemStats().battery;
-        return battery.format("%.0f") + "%";
+        return battery.toNumber();
     }
 
     private function isConnected() {
