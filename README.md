@@ -6,6 +6,8 @@
 
 Fully working watch face for Garmin device in Monkey C for Garmin SDK.
 
+Tested and available for Forerunner 245 / Forerunner 245 Music
+
 ## Features
 
 - 📅 Date (Week day/Month)
@@ -20,9 +22,8 @@ Fully working watch face for Garmin device in Monkey C for Garmin SDK.
 
 ### Interesting follow-ups
 
-- Work with partial updates in case it improves battery use.
 - Support multilanguage.
-- Use colors depending on the device (Forerunner has only 64).
+- Use colors depending on the device (Forerunner 245 has only 64).
 - Save dimens and values in resource files to make it more responsive in different Garmin models.
 - Dynamic JSON keys depending on what sensors are available in the devices.
 - Dynamic JSON keys depending on the screen size to show more/less information.
