@@ -1,4 +1,4 @@
-# Garmin Forerunner 245 Watch Face time.json
+# Garmin Forerunner Watch Face time.json
 
 <p align="center">
 <img width="240" alt="Screenshot" src="sample.png">
@@ -6,7 +6,7 @@
 
 Fully working watch face for Garmin device in Monkey C for Garmin SDK.
 
-Tested and available for Forerunner 245/255/745.
+Tested and available for Forerunner 245/255/745/945/955.
 
 [Connect IQ Store page](https://apps.garmin.com/es-ES/apps/cf49a195-e5a9-48de-af23-83b21f9a4294)
 
