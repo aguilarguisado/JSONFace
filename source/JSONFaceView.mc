@@ -13,17 +13,24 @@ class JSONFaceView extends WatchUi.WatchFace {
     private var COLOR_ORANGE_NUMBER = 0xffaa00;
     private var FONT = Graphics.FONT_XTINY;
 
-    private var HEADER_FILENAME_X = 45;
-    private var HEADER_FILENAME_Y = 20;
-    private var HEADER_HEIGHT = 40;
+    private var INDEX_HEADER_FILENAME_X = 0;
+    private var INDEX_HEADER_FILENAME_Y = 1;
+    private var INDEX_HEADER_HEIGHT = 2;
+    private var INDEX_LINE_START_X = 3;
+    private var INDEX_LINE_START_Y = 4;
+    private var INDEX_JSON_START_X = 5;
+    private var INDEX_JSON_START_Y = 6;
+    private var INDEX_JSON_GAP_SIZE = 7;
+    private var INDEX_JSON_INDENT_SIZE = 8;
 
-    private var LINE_START_X = 40;
-    private var LINE_START_Y = 45;
+    hidden var positions;
 
-    private var JSON_START_X = LINE_START_X + 10;
-    private var JSON_START_Y = LINE_START_Y;
-    private var JSON_GAP_SIZE = 5;
-    private var JSON_INDENT_SIZE = 10;
+    function getPositions(){
+        if(positions == null){
+            positions = Application.loadResource(Rez.JsonData.mPosition);
+        }
+        return positions;
+    }
 
     function initialize() {
         WatchFace.initialize();
@@ -38,7 +45,7 @@ class JSONFaceView extends WatchUi.WatchFace {
     function onUpdate(dc as Graphics.Dc) {
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
-        
+
         drawBackground(dc);
         drawHeader(dc);
         drawLineNumbers(dc);
@@ -51,26 +58,29 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function drawHeader(dc as Graphics.Dc){
+        var positions = getPositions();
         // Draw text
         var headerText = "time.json x";
         var headerTextLength = dc.getTextDimensions(headerText, FONT)[0];
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(HEADER_FILENAME_X, HEADER_FILENAME_Y, FONT, headerText, Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(positions[INDEX_HEADER_FILENAME_X], positions[INDEX_HEADER_FILENAME_Y], FONT, headerText, Graphics.TEXT_JUSTIFY_LEFT);
 
         // Draw frame lines
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(0, HEADER_HEIGHT, dc.getWidth(), HEADER_HEIGHT);
+        dc.drawLine(0, positions[INDEX_HEADER_HEIGHT], dc.getWidth(), positions[INDEX_HEADER_HEIGHT]);
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(HEADER_FILENAME_X, HEADER_HEIGHT, HEADER_FILENAME_X + headerTextLength, HEADER_HEIGHT);
+        dc.drawLine(positions[INDEX_HEADER_FILENAME_X], positions[INDEX_HEADER_HEIGHT], positions[INDEX_HEADER_FILENAME_X] + headerTextLength, positions[INDEX_HEADER_HEIGHT]);
     }
 
     private function drawLineNumbers(dc as Graphics.Dc){
+        var positions = getPositions();
+
         var lineNumbers = 9;
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
         var lineHeight = dc.getFontHeight(FONT);
         for (var i = 1; i <= lineNumbers; i++) {
-            var x = LINE_START_X; // X position for the line number
-            var y = LINE_START_Y + ((i -1) * lineHeight); // Y position for the line number
+            var x = positions[INDEX_LINE_START_X]; // X position for the line number
+            var y = positions[INDEX_LINE_START_Y] + ((i -1) * lineHeight); // Y position for the line number
             var lineNum = i < 10 ? "  " + i : i; // Add a leading zero to single digit numbers
             dc.drawText(x, y, FONT, lineNum.toString(), Graphics.TEXT_JUSTIFY_RIGHT);
         }    
@@ -106,6 +116,7 @@ class JSONFaceView extends WatchUi.WatchFace {
     private function drawPropertyWithDelimiter(dc, key, value, lineNumber, indexNumber, endDelimiter){
         var x = getLineX(dc, indexNumber);
         var y = getLineY(dc, lineNumber);
+        var positions = getPositions();
 
         var keyWithQuotes = "\""+key+"\"";
         var valueWithQuotes = "\""+value+"\"";
@@ -114,10 +125,10 @@ class JSONFaceView extends WatchUi.WatchFace {
         drawKeyText(dc, x, y, keyWithQuotes);
         
         var textLength = dc.getTextDimensions(keyWithQuotes, FONT)[0];
-        var twoPointsX = x + textLength + JSON_GAP_SIZE;
+        var twoPointsX = x + textLength + positions[INDEX_JSON_GAP_SIZE];
         drawPlainText(dc, twoPointsX , y, ":");
 
-        var valueX = twoPointsX + dc.getTextDimensions(":", FONT)[0] + JSON_GAP_SIZE;
+        var valueX = twoPointsX + dc.getTextDimensions(":", FONT)[0] + positions[INDEX_JSON_GAP_SIZE];
         if(value instanceof Toybox.Lang.String){
             valueText = valueWithQuotes;
             drawStringText(dc, valueX, y, valueText);
@@ -135,12 +146,13 @@ class JSONFaceView extends WatchUi.WatchFace {
 
     // Auxiliary functions to calculate the position of the text
     private function getLineX(dc, levelNumber){
-        return JSON_START_X + (levelNumber * JSON_INDENT_SIZE);
+        var positions = getPositions();
+        return positions[INDEX_JSON_START_X] + (levelNumber * positions[INDEX_JSON_INDENT_SIZE]);
     }
 
     private function getLineY(dc, lineNumber){
         var lineHeight = dc.getFontHeight(FONT);
-        return JSON_START_Y + ((lineNumber -1) * lineHeight);
+        return positions[INDEX_JSON_START_Y] + ((lineNumber -1) * lineHeight);
     }
 
     // Auxiliary functions to draw text with different colors
