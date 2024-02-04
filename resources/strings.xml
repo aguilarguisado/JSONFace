@@ -1,0 +1,13 @@
+<strings>
+    <string id="AppName">JSON Face</string>
+    <string id="title">time.json</string>
+    <string id="date">date</string>
+    <string id="time">time</string>
+    <string id="battery">battery</string>
+    <string id="bluetooth">bluetooth</string>
+    <string id="steps">steps</string>
+    <string id="distance">distance</string>
+    <string id="hr">hr</string>
+    <string id="connected">connected</string>
+    <string id="disconnected">offline</string>
+</strings>

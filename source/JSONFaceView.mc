@@ -24,16 +24,34 @@ class JSONFaceView extends WatchUi.WatchFace {
     private var INDEX_JSON_INDENT_SIZE = 8;
 
     hidden var positions;
-
-    function getPositions(){
-        if(positions == null){
-            positions = Application.loadResource(Rez.JsonData.mPosition);
-        }
-        return positions;
-    }
+    hidden var titleString;
+    hidden var dateString;
+    hidden var timeString;
+    hidden var batteryString;
+    hidden var bluetoothString;
+    hidden var stepsString;
+    hidden var distanceString;
+    hidden var heartRateString;
+    hidden var connectedString;
+    hidden var disconnectedString;
 
     function initialize() {
         WatchFace.initialize();
+        initResources();
+    }
+
+    private function initResources(){
+        positions = Application.loadResource(Rez.JsonData.mPosition);
+        titleString = Application.loadResource(Rez.Strings.title);
+        dateString = Application.loadResource(Rez.Strings.date);
+        timeString = Application.loadResource(Rez.Strings.time);
+        batteryString = Application.loadResource(Rez.Strings.battery);
+        bluetoothString = Application.loadResource(Rez.Strings.bluetooth);
+        stepsString = Application.loadResource(Rez.Strings.steps);
+        distanceString = Application.loadResource(Rez.Strings.distance);
+        heartRateString = Application.loadResource(Rez.Strings.hr);
+        connectedString = Application.loadResource(Rez.Strings.connected);
+        disconnectedString = Application.loadResource(Rez.Strings.disconnected);
     }
 
     // Load your resources here
@@ -58,9 +76,8 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function drawHeader(dc as Graphics.Dc){
-        var positions = getPositions();
         // Draw text
-        var headerText = "time.json x";
+        var headerText = titleString+" x";
         var headerTextLength = dc.getTextDimensions(headerText, FONT)[0];
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(positions[INDEX_HEADER_FILENAME_X], positions[INDEX_HEADER_FILENAME_Y], FONT, headerText, Graphics.TEXT_JUSTIFY_LEFT);
@@ -73,8 +90,6 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function drawLineNumbers(dc as Graphics.Dc){
-        var positions = getPositions();
-
         var lineNumbers = 9;
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
         var lineHeight = dc.getFontHeight(FONT);
@@ -87,13 +102,13 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
     private function drawJSON(dc as Graphics.Dc){
         drawDelimiter(dc, "{", 1, 0);
-        drawProperty(dc, "date", getDate(), 2, 1);
-        drawProperty(dc, "time", getHoursMinutes(), 3, 1);
-        drawProperty(dc, "battery", getBattery(),4, 1);
-        drawProperty(dc, "bluetooth", isConnected(), 5, 1);
-        drawProperty(dc, "steps", getStepCount(), 6, 1);
-        drawProperty(dc, "distance", getDistance(), 7, 1);
-        drawPropertyNoDelimiter(dc, "hr", getHeartRate(), 8, 1);
+        drawProperty(dc, dateString, getDate(), 2, 1);
+        drawProperty(dc, timeString, getHoursMinutes(), 3, 1);
+        drawProperty(dc, batteryString, getBattery(),4, 1);
+        drawProperty(dc, bluetoothString, isConnected(), 5, 1);
+        drawProperty(dc, stepsString, getStepCount(), 6, 1);
+        drawProperty(dc, distanceString, getDistance(), 7, 1);
+        drawPropertyNoDelimiter(dc, heartRateString, getHeartRate(), 8, 1);
         drawDelimiter(dc, "}", 9, 0);
     }
 
@@ -116,7 +131,6 @@ class JSONFaceView extends WatchUi.WatchFace {
     private function drawPropertyWithDelimiter(dc, key, value, lineNumber, indexNumber, endDelimiter){
         var x = getLineX(dc, indexNumber);
         var y = getLineY(dc, lineNumber);
-        var positions = getPositions();
 
         var keyWithQuotes = "\""+key+"\"";
         var valueWithQuotes = "\""+value+"\"";
@@ -146,7 +160,6 @@ class JSONFaceView extends WatchUi.WatchFace {
 
     // Auxiliary functions to calculate the position of the text
     private function getLineX(dc, levelNumber){
-        var positions = getPositions();
         return positions[INDEX_JSON_START_X] + (levelNumber * positions[INDEX_JSON_INDENT_SIZE]);
     }
 
@@ -190,27 +203,19 @@ class JSONFaceView extends WatchUi.WatchFace {
         // Extract the date info, the strings will be localized
         var date = Date.info(now, Time.FORMAT_MEDIUM); // Extract the date info
         // Format the date into "ddd, MMM, D", for instance: "Thu, Jan 6"
-        var dateString = Lang.format("$1$, $2$ $3$", [date.day_of_week, date.month, date.day]);
-        return dateString;
+        return Lang.format("$1$, $2$ $3$", [date.day_of_week, date.month, date.day]);
     }
 
     private function getStepCount() {
         var stepCount = ActivityMonitor.getInfo().steps;
-        if(stepCount == null){
-            return "--";
-        }else{
-            return stepCount;
-        }
+        return stepCount == null ? "--" : stepCount;
     }
 
     private function getDistance() {
         var distance = ActivityMonitor.getInfo().distance;
-        if(distance == null){
-            return "--";
-        }else{
-            // Distance is in cm, convert to km
-            return distance/100000.0;
-        }
+        
+        // Distance is in cm, convert to km
+        return distance == null ? "--" : distance/100000.0;
     }
 
 
@@ -231,13 +236,7 @@ class JSONFaceView extends WatchUi.WatchFace {
         }
 
         // Could still be null if the device doesn't support it
-        if(heartRate == null){
-            heartRate = "--";
-        }else{
-            heartRate = heartRate.toNumber();
-        }
-
-        return heartRate;
+        return heartRate == null ? "--" : heartRate.toNumber();
     }
 
     private function getBattery() {
@@ -247,6 +246,6 @@ class JSONFaceView extends WatchUi.WatchFace {
 
     private function isConnected() {
         var isConnected = System.getDeviceSettings().phoneConnected;
-        return isConnected ? "connected" : "offline";
+        return isConnected ? connectedString : disconnectedString;
     }
 }
