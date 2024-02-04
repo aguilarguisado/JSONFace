@@ -1,0 +1,12 @@
+<resources>
+    <string id="title">hora.json</string>
+    <string id="date">fecha</string>
+    <string id="time">hora</string>
+    <string id="battery">batería</string>
+    <string id="bluetooth">bluetooth</string>
+    <string id="steps">pasos</string>
+    <string id="distance">distancia</string>
+    <string id="hr">pulso</string>
+    <string id="connected">conectado</string>
+    <string id="disconnected">desconect.</string>
+</resources>
