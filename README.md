@@ -24,10 +24,7 @@ Tested and available for Forerunner 245/255/745/945/955.
 
 ### Interesting follow-ups
 
-- Support multilanguage.
 - Increase layout in a wider set of watches by using less pixel-perfect design.
-- Use colors depending on the device.
-- Save dimens and values in resource files to make it more responsive in different Garmin models.
 - Dynamic JSON keys depending on what sensors are available in the devices.
 - Dynamic JSON keys depending on the screen size to show more/less information.
 
