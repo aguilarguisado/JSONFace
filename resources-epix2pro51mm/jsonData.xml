@@ -1,11 +1,11 @@
 <resources>
-  <jsonData id="mPosition">[45, 20, 40, 40, 45, 50, 45, 5, 10]</jsonData>
+  <jsonData id="mPosition">[120, 20, 55, 80, 70, 90, 70, 5, 10]</jsonData>
   <!-- 
-    0= HEADER_FILENAME_X = 45;
+    0= HEADER_FILENAME_X = 120;
     1= HEADER_FILENAME_Y = 20;
-    2= HEADER_HEIGHT = 40;
-    3= LINE_START_X = 40;
-    4= LINE_START_Y = 45;
+    2= HEADER_HEIGHT = 55;
+    3= LINE_START_X = 80;
+    4= LINE_START_Y = 70;
     5= JSON_START_X = LINE_START_X + 10;
     6= JSON_START_Y = LINE_START_Y;
     7= JSON_GAP_SIZE = 5;
