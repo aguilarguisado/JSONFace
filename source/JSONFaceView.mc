@@ -24,6 +24,8 @@ class JSONFaceView extends WatchUi.WatchFace {
     private var KEY_JSON_INDENT_SIZE = "JSON_INDENT_SIZE";
 
     hidden var positions;
+    hidden var featureList;
+    hidden var totalLines;
     hidden var titleString;
     hidden var dateString;
     hidden var timeString;
@@ -41,6 +43,7 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function initResources(){
+        initAllowedFeatures();
         positions = Application.loadResource(Rez.JsonData.screenReferences);
         titleString = Application.loadResource(Rez.Strings.title);
         dateString = Application.loadResource(Rez.Strings.date);
@@ -52,6 +55,19 @@ class JSONFaceView extends WatchUi.WatchFace {
         heartRateString = Application.loadResource(Rez.Strings.hr);
         connectedString = Application.loadResource(Rez.Strings.connected);
         disconnectedString = Application.loadResource(Rez.Strings.disconnected);
+    }
+
+    private function initAllowedFeatures(){
+        featureList = Application.loadResource(Rez.JsonData.features);
+        var activeFeatures = 0;
+        for (var i = 0; i < featureList.size(); i++) {
+            var feature = featureList[i];
+            var isActive = feature.get("active");
+            if (isActive == true) {
+                activeFeatures++;
+            }
+        }
+        totalLines = activeFeatures + 2;
     }
 
     // Load your resources here
@@ -90,10 +106,9 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function drawLineNumbers(dc as Graphics.Dc){
-        var lineNumbers = 9;
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
         var lineHeight = dc.getFontHeight(FONT);
-        for (var i = 1; i <= lineNumbers; i++) {
+        for (var i = 1; i <= totalLines; i++) {
             var x = positions.get(KEY_LINE_START_X); // X position for the line number
             var y = positions.get(KEY_LINE_START_Y) + ((i -1) * lineHeight); // Y position for the line number
             var lineNum = i < 10 ? "  " + i : i; // Add a leading zero to single digit numbers
@@ -102,16 +117,33 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
     private function drawJSON(dc as Graphics.Dc){
         drawDelimiter(dc, "{", 1, 0);
-        drawProperty(dc, dateString, getDate(), 2, 1);
-        drawProperty(dc, timeString, getHoursMinutes(), 3, 1);
-        drawProperty(dc, batteryString, getBattery(),4, 1);
-        drawProperty(dc, bluetoothString, isConnected(), 5, 1);
-        drawProperty(dc, stepsString, getStepCount(), 6, 1);
-        drawProperty(dc, distanceString, getDistance(), 7, 1);
-        drawPropertyNoDelimiter(dc, heartRateString, getHeartRate(), 8, 1);
-        drawDelimiter(dc, "}", 9, 0);
+        var currentLine = 2;
+        // TODO: Better more generic way to draw the properties but struggling with dynamic function calls
+        for (var i = 0; i < featureList.size(); i++) {
+            var property = featureList[i];
+            var key = property.get("key");
+            var isActive = property.get("active");
+            if(isActive){
+                if(key.equals("date")){
+                    drawProperty(dc, dateString, getDate(), currentLine, 1);
+                }else if(key.equals("time")){
+                    drawProperty(dc, timeString, getHoursMinutes(), currentLine, 1);
+                }else if(key.equals("battery")){
+                    drawProperty(dc, batteryString, getBattery(), currentLine, 1);
+                }else if(key.equals("bluetooth")){
+                    drawProperty(dc, bluetoothString, isConnected(), currentLine, 1);
+                }else if(key.equals("steps")){
+                    drawProperty(dc, stepsString, getStepCount(), currentLine, 1);
+                }else if(key.equals("distance")){
+                    drawProperty(dc, distanceString, getDistance(), currentLine, 1);
+                }else if(key.equals("heartRate")){
+                    drawProperty(dc, heartRateString, getHeartRate(), currentLine, 1);
+                }
+                currentLine++;
+            }
+        }
+        drawDelimiter(dc, "}", totalLines, 0);
     }
-
 
     // Auxiliary functions to draw Lines
     private function drawDelimiter(dc, value, lineNumber, indexNumber){
@@ -121,11 +153,8 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function drawProperty(dc, key, value, lineNumber, indexNumber){
-        drawPropertyWithDelimiter(dc, key, value, lineNumber, indexNumber, ",");
-    }
-
-    private function drawPropertyNoDelimiter(dc, key, value, lineNumber, indexNumber){
-        drawPropertyWithDelimiter(dc, key, value, lineNumber, indexNumber, "");
+        var delimiter = lineNumber < totalLines - 1 ? "," : "";
+        drawPropertyWithDelimiter(dc, key, value, lineNumber, indexNumber, delimiter);
     }
 
     private function drawPropertyWithDelimiter(dc, key, value, lineNumber, indexNumber, endDelimiter){

@@ -12,4 +12,36 @@
       "JSON_INDENT_SIZE": 10
     }
   </jsonData>
+  <jsonData id="features">
+  [ 
+    {
+      "key": "date",
+      "active": true
+    },
+    {
+      "key": "time",
+      "active": true
+    },
+    {
+      "key": "battery",
+      "active": true
+    },
+    {
+      "key": "bluetooth",
+      "active": true
+    },
+    {
+      "key": "steps",
+      "active": true
+    },
+    {
+      "key": "distance",
+      "active": true
+    },
+    {
+      "key": "heartRate",
+      "active": true
+    }
+  ]
+  </jsonData>
 </resources>
