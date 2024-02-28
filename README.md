@@ -6,10 +6,13 @@
 
 Fully working watch face for Garmin device in Monkey C for Garmin SDK.
 
+Please ask for your model. I will try to support it!
+
 Tested and available for:
 
-- Forerunner 245/255/745/945/955.
 - Epix Pro 2 (51 mm).
+- Forerunner 245/255/745/945/955.
+- Venu 3.
 - Vivoactive 4/4S/5.
 
 Disclaimer: Due to some constraints about the face size and the minimum font size supported vivoactive devices will not show bluetooth information. PR are welcome!
@@ -25,14 +28,6 @@ Disclaimer: Due to some constraints about the face size and the minimum font siz
 - 🚶🏽‍♂️ Step Count
 - 📏 Distance in km
 - 💗 Heart Rate
-
----
-
-### Interesting follow-ups
-
-- Increase layout in a wider set of watches by using less pixel-perfect design.
-- Dynamic JSON keys depending on what sensors are available in the devices.
-- Dynamic JSON keys depending on the screen size to show more/less information.
 
 ---
 
