@@ -23,8 +23,9 @@ class JSONFaceView extends WatchUi.WatchFace {
     private var KEY_JSON_GAP_SIZE = "JSON_GAP_SIZE";
     private var KEY_JSON_INDENT_SIZE = "JSON_INDENT_SIZE";
 
+    private var lines;
+
     hidden var positions;
-    hidden var featureList;
     hidden var totalLines;
     hidden var titleString;
     hidden var dateString;
@@ -43,7 +44,8 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function initResources(){
-        initAllowedFeatures();
+        updateSettingProperties();
+
         positions = Application.loadResource(Rez.JsonData.screenReferences);
         titleString = Application.loadResource(Rez.Strings.title);
         dateString = Application.loadResource(Rez.Strings.date);
@@ -57,15 +59,17 @@ class JSONFaceView extends WatchUi.WatchFace {
         disconnectedString = Application.loadResource(Rez.Strings.disconnected);
     }
 
-    private function initAllowedFeatures(){
-        featureList = Application.loadResource(Rez.JsonData.features);
+    public function updateSettingProperties(){
+        lines = new [10];
         var activeFeatures = 0;
-        for (var i = 0; i < featureList.size(); i++) {
-            var feature = featureList[i];
-            var isActive = feature.get("active");
-            if (isActive == true) {
-                activeFeatures++;
+        for (var lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
+            var lineProperty = Application.Properties.getValue("Line" + lineNumber);
+            if (lineProperty != 0) {
+                lines[activeFeatures] = lineProperty;
+            } else {
+                continue;
             }
+            activeFeatures++;
         }
         totalLines = activeFeatures + 2;
     }
@@ -119,28 +123,23 @@ class JSONFaceView extends WatchUi.WatchFace {
         drawDelimiter(dc, "{", 1, 0);
         var currentLine = 2;
         // TODO: Better more generic way to draw the properties but struggling with dynamic function calls
-        for (var i = 0; i < featureList.size(); i++) {
-            var property = featureList[i];
-            var key = property.get("key");
-            var isActive = property.get("active");
-            if(isActive){
-                if(key.equals("date")){
-                    drawProperty(dc, dateString, getDate(), currentLine, 1);
-                }else if(key.equals("time")){
-                    drawProperty(dc, timeString, getHoursMinutes(), currentLine, 1);
-                }else if(key.equals("battery")){
-                    drawProperty(dc, batteryString, getBattery(), currentLine, 1);
-                }else if(key.equals("bluetooth")){
-                    drawProperty(dc, bluetoothString, isConnected(), currentLine, 1);
-                }else if(key.equals("steps")){
-                    drawProperty(dc, stepsString, getStepCount(), currentLine, 1);
-                }else if(key.equals("distance")){
-                    drawProperty(dc, distanceString, getDistance(), currentLine, 1);
-                }else if(key.equals("heartRate")){
-                    drawProperty(dc, heartRateString, getHeartRate(), currentLine, 1);
-                }
-                currentLine++;
+        for (var i = 0; i < lines.size(); i++) {
+            if (lines[i] == 1) {
+                drawProperty(dc, dateString, getDate(), currentLine, 1);
+            } else if (lines[i] == 2) {
+                drawProperty(dc, timeString, getHoursMinutes(), currentLine, 1);
+            } else if (lines[i] == 3) {
+                drawProperty(dc, batteryString, getBattery(), currentLine, 1);
+            } else if (lines[i] == 4) {
+                drawProperty(dc, bluetoothString, isConnected(), currentLine, 1);
+            } else if (lines[i] == 5) {
+                drawProperty(dc, stepsString, getStepCount(), currentLine, 1);
+            } else if (lines[i] == 6) {
+                drawProperty(dc, distanceString, getDistance(), currentLine, 1);
+            } else if (lines[i] == 7) {
+                drawProperty(dc, heartRateString, getHeartRate(), currentLine, 1);
             }
+            currentLine++;
         }
         drawDelimiter(dc, "}", totalLines, 0);
     }

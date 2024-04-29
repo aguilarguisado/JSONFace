@@ -4,6 +4,9 @@ import Toybox.WatchUi;
 
 class JSONFaceApp extends Application.AppBase {
 
+
+    var jsonFaceView;
+ 
     function initialize() {
         AppBase.initialize();
     }
@@ -18,7 +21,14 @@ class JSONFaceApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() as [Views] or [Views, InputDelegates] {
-        return [ new JSONFaceView() ];
+        jsonFaceView = new JSONFaceView();
+        return [ jsonFaceView ];
+    }
+
+    // New app settings have been received so trigger a UI update
+    function onSettingsChanged() as Void {
+        jsonFaceView.updateSettingProperties();
+        WatchUi.requestUpdate();
     }
 
 }
