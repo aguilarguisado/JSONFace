@@ -25,6 +25,11 @@ class JSONFaceApp extends Application.AppBase {
         return [ jsonFaceView ];
     }
 
+    // Return the initial view of your application here
+    function getSettingsView() as [ Views ] or [ Views, InputDelegates ] or Null {
+        return [ new JSONFaceSettingsMenu(), new JSONFaceSettingsMenuDelegate(jsonFaceView) ];
+    }
+
     // New app settings have been received so trigger a UI update
     function onSettingsChanged() as Void {
         jsonFaceView.updateSettingProperties();
