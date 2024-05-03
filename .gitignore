@@ -50,3 +50,5 @@ connectiq-sdk/
 
 # Any other files or directories specific to your development environment
 # e.g., editor backup files, temporary files, custom scripts
+
+.vscode/
