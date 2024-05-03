@@ -40,9 +40,6 @@ Thumbs.db
 # Build artifacts
 bin/
 
-# Device settings
-settings/
-
 # Project files that contain user-specific info
 *.prj
 
