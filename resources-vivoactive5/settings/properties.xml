@@ -1,0 +1,14 @@
+<properties>
+
+    <property id="Line1"  type="number">1</property>
+    <property id="Line2"  type="number">2</property>
+    <property id="Line3"  type="number">3</property>
+    <property id="Line4"  type="number">0</property>
+    <property id="Line5"  type="number">5</property>
+    <property id="Line6"  type="number">6</property>
+    <property id="Line7"  type="number">7</property>
+    <property id="Line8"  type="number">0</property>
+    <property id="Line9"  type="number">0</property>
+    <property id="Line10" type="number">0</property>
+
+</properties>

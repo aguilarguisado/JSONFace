@@ -12,4 +12,7 @@
       "JSON_INDENT_SIZE": 10
     }
   </jsonData>
+  <jsonData id="features">
+    [0, 1, 2, 3, 4, 5, 6, 7]
+  </jsonData>
 </resources>

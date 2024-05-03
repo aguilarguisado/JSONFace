@@ -57,6 +57,7 @@ import Toybox.WatchUi;
 class JSONFaceSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
 
     var jsonFaceView2;
+    var enabledFeatures = Application.loadResource(Rez.JsonData.features);
 
     function initialize(jsonFaceView) {
         Menu2InputDelegate.initialize();
@@ -67,6 +68,9 @@ class JSONFaceSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
         var id=item.getId();
         var currentValue = Application.Properties.getValue(id.toString());
         var newValue = (currentValue + 1) % valueTranslations.size();
+        while (newValue != 0 && enabledFeatures.indexOf(newValue) == -1) {
+            newValue = (newValue + 1) % valueTranslations.size();
+        }
         Application.Properties.setValue(id.toString(), newValue);
         jsonFaceView2.updateSettingProperties();
         item.setSubLabel(valueTranslations[newValue]);
