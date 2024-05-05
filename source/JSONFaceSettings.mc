@@ -41,14 +41,14 @@ class JSONFaceSettingsMenu extends WatchUi.Menu2 {
         lineTranslations[8] = Application.loadResource(Rez.Strings.line_9);
         lineTranslations[9] = Application.loadResource(Rez.Strings.line_10);
 
-        valueTranslations[0] = Application.loadResource(Rez.Strings.empty);
-        valueTranslations[1] = Application.loadResource(Rez.Strings.date);
-        valueTranslations[2] = Application.loadResource(Rez.Strings.time);
-        valueTranslations[3] = Application.loadResource(Rez.Strings.battery);
-        valueTranslations[4] = Application.loadResource(Rez.Strings.bluetooth);
-        valueTranslations[5] = Application.loadResource(Rez.Strings.steps);
-        valueTranslations[6] = Application.loadResource(Rez.Strings.distance);
-        valueTranslations[7] = Application.loadResource(Rez.Strings.hr);
+        valueTranslations[FeatureEnum.EMPTY] = Application.loadResource(Rez.Strings.empty);
+        valueTranslations[FeatureEnum.DATE] = Application.loadResource(Rez.Strings.date);
+        valueTranslations[FeatureEnum.TIME] = Application.loadResource(Rez.Strings.time);
+        valueTranslations[FeatureEnum.BATTERY] = Application.loadResource(Rez.Strings.battery);
+        valueTranslations[FeatureEnum.BLUETOOTH] = Application.loadResource(Rez.Strings.bluetooth);
+        valueTranslations[FeatureEnum.STEPS] = Application.loadResource(Rez.Strings.steps);
+        valueTranslations[FeatureEnum.DISTANCE] = Application.loadResource(Rez.Strings.distance);
+        valueTranslations[FeatureEnum.HR] = Application.loadResource(Rez.Strings.hr);
     }
 }
 

@@ -124,19 +124,19 @@ class JSONFaceView extends WatchUi.WatchFace {
         var currentLine = 2;
         // TODO: Better more generic way to draw the properties but struggling with dynamic function calls
         for (var i = 0; i < lines.size(); i++) {
-            if (lines[i] == 1) {
+            if (lines[i] == FeatureEnum.DATE) {
                 drawProperty(dc, dateString, getDate(), currentLine, 1);
-            } else if (lines[i] == 2) {
+            } else if (lines[i] == FeatureEnum.TIME) {
                 drawProperty(dc, timeString, getHoursMinutes(), currentLine, 1);
-            } else if (lines[i] == 3) {
+            } else if (lines[i] == FeatureEnum.BATTERY) {
                 drawProperty(dc, batteryString, getBattery(), currentLine, 1);
-            } else if (lines[i] == 4) {
+            } else if (lines[i] == FeatureEnum.BLUETOOTH) {
                 drawProperty(dc, bluetoothString, isConnected(), currentLine, 1);
-            } else if (lines[i] == 5) {
+            } else if (lines[i] == FeatureEnum.STEPS) {
                 drawProperty(dc, stepsString, getStepCount(), currentLine, 1);
-            } else if (lines[i] == 6) {
+            } else if (lines[i] == FeatureEnum.DISTANCE) {
                 drawProperty(dc, distanceString, getDistance(), currentLine, 1);
-            } else if (lines[i] == 7) {
+            } else if (lines[i] == FeatureEnum.HR) {
                 drawProperty(dc, heartRateString, getHeartRate(), currentLine, 1);
             }
             currentLine++;
