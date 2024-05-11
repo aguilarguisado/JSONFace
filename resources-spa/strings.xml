@@ -3,7 +3,6 @@
     <string id="title">hora.json</string>
     
     <!-- VALUES -->
-    <string id="empty">----</string>
     <string id="date">fecha</string>
     <string id="time">hora</string>
     <string id="battery">batería</string>
@@ -16,6 +15,7 @@
 
     <!-- SETTINGS -->
     <string id="settings">Ajustes</string>
+    <string id="empty">----</string>
     <string id="line_1">Línea 1</string>
     <string id="line_2">Línea 2</string>
     <string id="line_3">Línea 3</string>
