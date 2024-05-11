@@ -4,7 +4,6 @@ import Toybox.WatchUi;
 
 class JSONFaceApp extends Application.AppBase {
 
-
     var jsonFaceView;
  
     function initialize() {

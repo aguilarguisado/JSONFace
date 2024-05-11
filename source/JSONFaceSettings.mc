@@ -1,7 +1,9 @@
 import Toybox.WatchUi;
 
-    var lineTranslations = new [10];
-    var valueTranslations = new [8];
+    var MAX_LINES_COUNT = 10;
+
+    var lineTranslation;
+    var valueTranslations = new [FEATURES_COUNT];
 
 class JSONFaceSettingsMenu extends WatchUi.Menu2 {
 
@@ -12,13 +14,13 @@ class JSONFaceSettingsMenu extends WatchUi.Menu2 {
 
 
         Menu2.initialize(null);
-        Menu2.setTitle(settingsTitle); // todo translate
+        Menu2.setTitle(settingsTitle);
         
-        for(var i = 1; i <= 10; i++) {
+        for(var i = 1; i <= MAX_LINES_COUNT; i++) {
             Menu2.addItem(
                 new MenuItem(
                     // entry label
-                    lineTranslations[i-1],
+                    lineTranslation + " " + i,
                     // selected value
                     valueTranslations[Application.Properties.getValue("Line" + i)],
                     // property identifier
@@ -30,16 +32,7 @@ class JSONFaceSettingsMenu extends WatchUi.Menu2 {
     }
 
     private function initializeTranslations() {
-        lineTranslations[0] = Application.loadResource(Rez.Strings.line_1);
-        lineTranslations[1] = Application.loadResource(Rez.Strings.line_2);
-        lineTranslations[2] = Application.loadResource(Rez.Strings.line_3);
-        lineTranslations[3] = Application.loadResource(Rez.Strings.line_4);
-        lineTranslations[4] = Application.loadResource(Rez.Strings.line_5);
-        lineTranslations[5] = Application.loadResource(Rez.Strings.line_6);
-        lineTranslations[6] = Application.loadResource(Rez.Strings.line_7);
-        lineTranslations[7] = Application.loadResource(Rez.Strings.line_8);
-        lineTranslations[8] = Application.loadResource(Rez.Strings.line_9);
-        lineTranslations[9] = Application.loadResource(Rez.Strings.line_10);
+        lineTranslation = Application.loadResource(Rez.Strings.line);
 
         valueTranslations[FeatureEnum.EMPTY] = Application.loadResource(Rez.Strings.empty);
         valueTranslations[FeatureEnum.DATE] = Application.loadResource(Rez.Strings.date);

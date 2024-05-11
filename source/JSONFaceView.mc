@@ -23,7 +23,7 @@ class JSONFaceView extends WatchUi.WatchFace {
     private var KEY_JSON_GAP_SIZE = "JSON_GAP_SIZE";
     private var KEY_JSON_INDENT_SIZE = "JSON_INDENT_SIZE";
 
-    private var lines;
+    private var lines = new [MAX_LINES_COUNT];
 
     hidden var positions;
     hidden var totalLines;
@@ -60,7 +60,6 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     public function updateSettingProperties(){
-        lines = new [10];
         var activeFeatures = 0;
         for (var lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
             var lineProperty = Application.Properties.getValue("Line" + lineNumber);

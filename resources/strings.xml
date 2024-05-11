@@ -3,7 +3,6 @@
     <string id="title">time.json</string>
 
     <!-- VALUES -->
-    <string id="empty">----</string>
     <string id="date">date</string>
     <string id="time">time</string>
     <string id="battery">battery</string>
@@ -16,6 +15,8 @@
 
     <!-- SETTINGS -->
     <string id="settings">Settings</string>
+    <string id="empty">----</string>
+    <string id="line">Line</string>
     <string id="line_1">Line 1</string>
     <string id="line_2">Line 2</string>
     <string id="line_3">Line 3</string>

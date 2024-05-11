@@ -10,3 +10,5 @@ class FeatureEnum {
         HR = 7
     }
 }
+
+var FEATURES_COUNT = 8;
