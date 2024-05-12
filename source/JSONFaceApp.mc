@@ -31,7 +31,7 @@ class JSONFaceApp extends Application.AppBase {
 
     // New app settings have been received so trigger a UI update
     function onSettingsChanged() as Void {
-        jsonFaceView.updateSettingProperties();
+        jsonFaceView.refreshActiveLines();
         WatchUi.requestUpdate();
     }
 

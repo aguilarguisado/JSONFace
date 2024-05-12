@@ -74,7 +74,7 @@ class JSONFaceSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
             newValue = (newValue + 1) % valueTranslations.size();
         }
         Application.Properties.setValue(id.toString(), newValue);
-        jsonFaceView2.updateSettingProperties();
+        jsonFaceView2.refreshActiveLines();
         item.setSubLabel(valueTranslations[newValue]);
     }
 

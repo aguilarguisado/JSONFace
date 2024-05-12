@@ -23,7 +23,7 @@ class JSONFaceView extends WatchUi.WatchFace {
     private var KEY_JSON_GAP_SIZE = "JSON_GAP_SIZE";
     private var KEY_JSON_INDENT_SIZE = "JSON_INDENT_SIZE";
     private var MAX_NUMBER_OF_ATTRIBUTES = Application.Properties.getValue(MAX_NUMBER_OF_ATTRIBUTES_KEY);
-    private var lines = new [MAX_NUMBER_OF_ATTRIBUTES];
+    private var activeLines = [];
 
     hidden var positions;
     hidden var totalLines;
@@ -44,7 +44,7 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function initResources(){
-        updateSettingProperties();
+        refreshActiveLines();
 
         positions = Application.loadResource(Rez.JsonData.screenReferences);
         titleString = Application.loadResource(Rez.Strings.title);
@@ -59,18 +59,15 @@ class JSONFaceView extends WatchUi.WatchFace {
         disconnectedString = Application.loadResource(Rez.Strings.disconnected);
     }
 
-    public function updateSettingProperties(){
-        var activeFeatures = 0;
-        for (var lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
-            var lineProperty = Application.Properties.getValue("Line" + lineNumber);
-            if (lineProperty != 0) {
-                lines[activeFeatures] = lineProperty;
-            } else {
-                continue;
+    public function refreshActiveLines(){
+        activeLines = [];
+        for (var lineNumber = 0; lineNumber < MAX_NUMBER_OF_ATTRIBUTES; lineNumber++) {
+            var lineProperty = Application.Properties.getValue("Line" + (lineNumber + 1));
+            if (lineProperty != FeatureEnum.EMPTY) {
+                activeLines.add(lineProperty);
             }
-            activeFeatures++;
         }
-        totalLines = activeFeatures + 2;
+        totalLines = activeLines.size() + 2;
     }
 
     // Load your resources here
@@ -122,20 +119,20 @@ class JSONFaceView extends WatchUi.WatchFace {
         drawDelimiter(dc, "{", 1, 0);
         var currentLine = 2;
         // TODO: Better more generic way to draw the properties but struggling with dynamic function calls
-        for (var i = 0; i < lines.size(); i++) {
-            if (lines[i] == FeatureEnum.DATE) {
+        for (var i = 0; i < activeLines.size(); i++) {
+            if (activeLines[i] == FeatureEnum.DATE) {
                 drawProperty(dc, dateString, getDate(), currentLine, 1);
-            } else if (lines[i] == FeatureEnum.TIME) {
+            } else if (activeLines[i] == FeatureEnum.TIME) {
                 drawProperty(dc, timeString, getHoursMinutes(), currentLine, 1);
-            } else if (lines[i] == FeatureEnum.BATTERY) {
+            } else if (activeLines[i] == FeatureEnum.BATTERY) {
                 drawProperty(dc, batteryString, getBattery(), currentLine, 1);
-            } else if (lines[i] == FeatureEnum.BLUETOOTH) {
+            } else if (activeLines[i] == FeatureEnum.BLUETOOTH) {
                 drawProperty(dc, bluetoothString, isConnected(), currentLine, 1);
-            } else if (lines[i] == FeatureEnum.STEPS) {
+            } else if (activeLines[i] == FeatureEnum.STEPS) {
                 drawProperty(dc, stepsString, getStepCount(), currentLine, 1);
-            } else if (lines[i] == FeatureEnum.DISTANCE) {
+            } else if (activeLines[i] == FeatureEnum.DISTANCE) {
                 drawProperty(dc, distanceString, getDistance(), currentLine, 1);
-            } else if (lines[i] == FeatureEnum.HR) {
+            } else if (activeLines[i] == FeatureEnum.HR) {
                 drawProperty(dc, heartRateString, getHeartRate(), currentLine, 1);
             }
             currentLine++;
