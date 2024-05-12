@@ -1,39 +1,44 @@
 import Toybox.WatchUi;
 
-    var MAX_LINES_COUNT = 10;
-
-    var lineTranslation;
-    var valueTranslations = new [FEATURES_COUNT];
-
+// TODO: Currently all the features are enabled by default. This should be changed depending on the availability.
+var enabledFeatures = [
+    FeatureEnum.EMPTY,
+    FeatureEnum.DATE,
+    FeatureEnum.TIME,
+    FeatureEnum.BATTERY,
+    FeatureEnum.BLUETOOTH,
+    FeatureEnum.STEPS,
+    FeatureEnum.DISTANCE,
+    FeatureEnum.HR
+];
+var MAX_NUMBER_OF_ATTRIBUTES_KEY = "maxNumberOfAttributes";
+var valueTranslations = new [FEATURES_COUNT];
 class JSONFaceSettingsMenu extends WatchUi.Menu2 {
-
+    var maxNumberOfAttributes = Application.Properties.getValue(MAX_NUMBER_OF_ATTRIBUTES_KEY);
     var settingsTitle = Application.loadResource(Rez.Strings.settings);
+    var lineTranslations;
 
     function initialize() {
+        lineTranslations = new [maxNumberOfAttributes];
         initializeTranslations();
-
 
         Menu2.initialize(null);
         Menu2.setTitle(settingsTitle);
         
-        for(var i = 1; i <= MAX_LINES_COUNT; i++) {
-            Menu2.addItem(
-                new MenuItem(
-                    // entry label
-                    lineTranslation + " " + i,
-                    // selected value
-                    valueTranslations[Application.Properties.getValue("Line" + i)],
-                    // property identifier
-                    "Line" + i,
-                    {}
-                )
-            );
+        // Add items dynamically based on the maximum number of features
+        for (var i = 0; i < maxNumberOfAttributes; i++) {
+            var key = "Line" + (i+1);
+            var propertyValue = Application.Properties.getValue(key);
+            Menu2.addItem(new MenuItem(
+                lineTranslations[i],
+                valueTranslations[propertyValue],
+                key,
+                {}
+            ));
         }
     }
 
     private function initializeTranslations() {
-        lineTranslation = Application.loadResource(Rez.Strings.line);
-
         valueTranslations[FeatureEnum.EMPTY] = Application.loadResource(Rez.Strings.empty);
         valueTranslations[FeatureEnum.DATE] = Application.loadResource(Rez.Strings.date);
         valueTranslations[FeatureEnum.TIME] = Application.loadResource(Rez.Strings.time);
@@ -42,6 +47,11 @@ class JSONFaceSettingsMenu extends WatchUi.Menu2 {
         valueTranslations[FeatureEnum.STEPS] = Application.loadResource(Rez.Strings.steps);
         valueTranslations[FeatureEnum.DISTANCE] = Application.loadResource(Rez.Strings.distance);
         valueTranslations[FeatureEnum.HR] = Application.loadResource(Rez.Strings.hr);
+
+        var lineTemplate = Application.loadResource(Rez.Strings.line_n);
+        for (var i=0; i<lineTranslations.size(); i++) {
+            lineTranslations[i] = Lang.format(lineTemplate, [i+1]);
+        }
     }
 }
 
@@ -50,7 +60,6 @@ import Toybox.WatchUi;
 class JSONFaceSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
 
     var jsonFaceView2;
-    var enabledFeatures = Application.loadResource(Rez.JsonData.features);
 
     function initialize(jsonFaceView) {
         Menu2InputDelegate.initialize();

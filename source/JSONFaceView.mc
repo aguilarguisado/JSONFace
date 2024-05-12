@@ -22,8 +22,8 @@ class JSONFaceView extends WatchUi.WatchFace {
     private var KEY_JSON_START_Y = "JSON_START_Y";
     private var KEY_JSON_GAP_SIZE = "JSON_GAP_SIZE";
     private var KEY_JSON_INDENT_SIZE = "JSON_INDENT_SIZE";
-
-    private var lines = new [MAX_LINES_COUNT];
+    private var MAX_NUMBER_OF_ATTRIBUTES = Application.Properties.getValue(MAX_NUMBER_OF_ATTRIBUTES_KEY);
+    private var lines = new [MAX_NUMBER_OF_ATTRIBUTES];
 
     hidden var positions;
     hidden var totalLines;

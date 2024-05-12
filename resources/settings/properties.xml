@@ -1,5 +1,5 @@
 <properties>
-
+    <property id="maxNumberOfAttributes" type="number">7</property>
     <property id="Line1"  type="number">1</property>
     <property id="Line2"  type="number">2</property>
     <property id="Line3"  type="number">3</property>

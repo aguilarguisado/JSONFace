@@ -17,14 +17,5 @@
     <string id="settings">Ajustes</string>
     <string id="empty">----</string>
     <string id="line">Línea</string>
-    <string id="line_1">Línea 1</string>
-    <string id="line_2">Línea 2</string>
-    <string id="line_3">Línea 3</string>
-    <string id="line_4">Línea 4</string>
-    <string id="line_5">Línea 5</string>
-    <string id="line_6">Línea 6</string>
-    <string id="line_7">Línea 7</string>
-    <string id="line_8">Línea 8</string>
-    <string id="line_9">Línea 9</string>
-    <string id="line_10">Línea 10</string>
+    <string id="line_n">Línea $1$</string>
 </resources>
