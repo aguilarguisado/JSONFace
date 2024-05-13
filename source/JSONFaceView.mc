@@ -22,9 +22,10 @@ class JSONFaceView extends WatchUi.WatchFace {
     private var KEY_JSON_START_Y = "JSON_START_Y";
     private var KEY_JSON_GAP_SIZE = "JSON_GAP_SIZE";
     private var KEY_JSON_INDENT_SIZE = "JSON_INDENT_SIZE";
+    private var MAX_NUMBER_OF_ATTRIBUTES = Application.Properties.getValue(MAX_NUMBER_OF_ATTRIBUTES_KEY);
+    private var activeLines = [];
 
     hidden var positions;
-    hidden var featureList;
     hidden var totalLines;
     hidden var titleString;
     hidden var dateString;
@@ -43,7 +44,8 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function initResources(){
-        initAllowedFeatures();
+        refreshActiveLines();
+
         positions = Application.loadResource(Rez.JsonData.screenReferences);
         titleString = Application.loadResource(Rez.Strings.title);
         dateString = Application.loadResource(Rez.Strings.date);
@@ -57,17 +59,15 @@ class JSONFaceView extends WatchUi.WatchFace {
         disconnectedString = Application.loadResource(Rez.Strings.disconnected);
     }
 
-    private function initAllowedFeatures(){
-        featureList = Application.loadResource(Rez.JsonData.features);
-        var activeFeatures = 0;
-        for (var i = 0; i < featureList.size(); i++) {
-            var feature = featureList[i];
-            var isActive = feature.get("active");
-            if (isActive == true) {
-                activeFeatures++;
+    public function refreshActiveLines(){
+        activeLines = [];
+        for (var lineNumber = 0; lineNumber < MAX_NUMBER_OF_ATTRIBUTES; lineNumber++) {
+            var lineProperty = Application.Properties.getValue("Line" + (lineNumber + 1));
+            if (lineProperty != FeatureEnum.EMPTY) {
+                activeLines.add(lineProperty);
             }
         }
-        totalLines = activeFeatures + 2;
+        totalLines = activeLines.size() + 2;
     }
 
     // Load your resources here
@@ -119,28 +119,23 @@ class JSONFaceView extends WatchUi.WatchFace {
         drawDelimiter(dc, "{", 1, 0);
         var currentLine = 2;
         // TODO: Better more generic way to draw the properties but struggling with dynamic function calls
-        for (var i = 0; i < featureList.size(); i++) {
-            var property = featureList[i];
-            var key = property.get("key");
-            var isActive = property.get("active");
-            if(isActive){
-                if(key.equals("date")){
-                    drawProperty(dc, dateString, getDate(), currentLine, 1);
-                }else if(key.equals("time")){
-                    drawProperty(dc, timeString, getHoursMinutes(), currentLine, 1);
-                }else if(key.equals("battery")){
-                    drawProperty(dc, batteryString, getBattery(), currentLine, 1);
-                }else if(key.equals("bluetooth")){
-                    drawProperty(dc, bluetoothString, isConnected(), currentLine, 1);
-                }else if(key.equals("steps")){
-                    drawProperty(dc, stepsString, getStepCount(), currentLine, 1);
-                }else if(key.equals("distance")){
-                    drawProperty(dc, distanceString, getDistance(), currentLine, 1);
-                }else if(key.equals("heartRate")){
-                    drawProperty(dc, heartRateString, getHeartRate(), currentLine, 1);
-                }
-                currentLine++;
+        for (var i = 0; i < activeLines.size(); i++) {
+            if (activeLines[i] == FeatureEnum.DATE) {
+                drawProperty(dc, dateString, getDate(), currentLine, 1);
+            } else if (activeLines[i] == FeatureEnum.TIME) {
+                drawProperty(dc, timeString, getHoursMinutes(), currentLine, 1);
+            } else if (activeLines[i] == FeatureEnum.BATTERY) {
+                drawProperty(dc, batteryString, getBattery(), currentLine, 1);
+            } else if (activeLines[i] == FeatureEnum.BLUETOOTH) {
+                drawProperty(dc, bluetoothString, isConnected(), currentLine, 1);
+            } else if (activeLines[i] == FeatureEnum.STEPS) {
+                drawProperty(dc, stepsString, getStepCount(), currentLine, 1);
+            } else if (activeLines[i] == FeatureEnum.DISTANCE) {
+                drawProperty(dc, distanceString, getDistance(), currentLine, 1);
+            } else if (activeLines[i] == FeatureEnum.HR) {
+                drawProperty(dc, heartRateString, getHeartRate(), currentLine, 1);
             }
+            currentLine++;
         }
         drawDelimiter(dc, "}", totalLines, 0);
     }

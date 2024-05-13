@@ -1,6 +1,8 @@
 <strings>
     <string id="AppName">JSON Face</string>
     <string id="title">time.json</string>
+
+    <!-- VALUES -->
     <string id="date">date</string>
     <string id="time">time</string>
     <string id="battery">battery</string>
@@ -10,4 +12,10 @@
     <string id="hr">hr</string>
     <string id="connected">connected</string>
     <string id="disconnected">offline</string>
+
+    <!-- SETTINGS -->
+    <string id="settings">Settings</string>
+    <string id="empty">----</string>
+    <string id="line">Line</string>
+    <string id="line_n">Line $1$</string>
 </strings>

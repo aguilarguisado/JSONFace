@@ -40,9 +40,6 @@ Thumbs.db
 # Build artifacts
 bin/
 
-# Device settings
-settings/
-
 # Project files that contain user-specific info
 *.prj
 
@@ -53,3 +50,5 @@ connectiq-sdk/
 
 # Any other files or directories specific to your development environment
 # e.g., editor backup files, temporary files, custom scripts
+
+.vscode/

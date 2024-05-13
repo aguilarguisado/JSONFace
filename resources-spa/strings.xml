@@ -1,6 +1,8 @@
 <resources>
     <string id="AppName">JSON Face</string>
     <string id="title">hora.json</string>
+    
+    <!-- VALUES -->
     <string id="date">fecha</string>
     <string id="time">hora</string>
     <string id="battery">batería</string>
@@ -10,4 +12,10 @@
     <string id="hr">pulso</string>
     <string id="connected">conectado</string>
     <string id="disconnected">desconect.</string>
+
+    <!-- SETTINGS -->
+    <string id="settings">Ajustes</string>
+    <string id="empty">----</string>
+    <string id="line">Línea</string>
+    <string id="line_n">Línea $1$</string>
 </resources>
