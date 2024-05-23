@@ -10,8 +10,7 @@ class JSONFaceView extends WatchUi.WatchFace {
 
     private var COLOR_KEYS = 0xff0055;
     private var COLOR_GREEN_STRING = 0x00aa00;
-    private var COLOR_ORANGE_NUMBER = 0xffaa00;
-    private var COLOR_PURPLE_NULL = 0xae81ff;
+    private var COLOR_ORANGE = 0xffaa00;
     private var FONT = Graphics.FONT_XTINY;
 
     private var KEY_HEADER_FILENAME_X = "HEADER_FILENAME_X";
@@ -208,7 +207,7 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function drawNullText(dc, x, y, content){
-        dc.setColor(COLOR_PURPLE_NULL, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x, y, FONT, content , Graphics.TEXT_JUSTIFY_LEFT);
     }
 
@@ -218,7 +217,7 @@ class JSONFaceView extends WatchUi.WatchFace {
     }
 
     private function drawNumberText(dc, x, y, content){
-        dc.setColor(COLOR_ORANGE_NUMBER, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x, y, FONT, content.toString() , Graphics.TEXT_JUSTIFY_LEFT);
     }
 
