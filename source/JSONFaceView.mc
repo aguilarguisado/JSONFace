@@ -10,7 +10,7 @@ class JSONFaceView extends WatchUi.WatchFace {
 
     private var COLOR_KEYS = 0xff0055;
     private var COLOR_GREEN_STRING = 0x00aa00;
-    private var COLOR_ORANGE_NUMBER = 0xffaa00;
+    private var COLOR_ORANGE = 0xffaa00;
     private var FONT = Graphics.FONT_XTINY;
 
     private var KEY_HEADER_FILENAME_X = "HEADER_FILENAME_X";
@@ -158,7 +158,7 @@ class JSONFaceView extends WatchUi.WatchFace {
 
         var keyWithQuotes = "\""+key+"\"";
         var valueWithQuotes = "\""+value+"\"";
-        var valueText = value.toString();
+        var valueText = value == null ? "null" : value.toString();
 
         drawKeyText(dc, x, y, keyWithQuotes);
         
@@ -167,7 +167,10 @@ class JSONFaceView extends WatchUi.WatchFace {
         drawPlainText(dc, twoPointsX , y, ":");
 
         var valueX = twoPointsX + dc.getTextDimensions(":", FONT)[0] + positions.get(KEY_JSON_GAP_SIZE);
-        if(value instanceof Toybox.Lang.String){
+        if(value == null) {
+            drawNullText(dc, valueX, y, valueText);
+        }
+        else if(value instanceof Toybox.Lang.String){
             valueText = valueWithQuotes;
             drawStringText(dc, valueX, y, valueText);
         }else if(value instanceof Toybox.Lang.Number){
@@ -203,13 +206,18 @@ class JSONFaceView extends WatchUi.WatchFace {
         dc.drawText(x, y, FONT, content , Graphics.TEXT_JUSTIFY_LEFT);
     }
 
+    private function drawNullText(dc, x, y, content){
+        dc.setColor(COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(x, y, FONT, content , Graphics.TEXT_JUSTIFY_LEFT);
+    }
+
     private function drawStringText(dc, x, y, content){
         dc.setColor(COLOR_GREEN_STRING, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x, y, FONT, content , Graphics.TEXT_JUSTIFY_LEFT);
     }
 
     private function drawNumberText(dc, x, y, content){
-        dc.setColor(COLOR_ORANGE_NUMBER, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x, y, FONT, content.toString() , Graphics.TEXT_JUSTIFY_LEFT);
     }
 
@@ -232,20 +240,20 @@ class JSONFaceView extends WatchUi.WatchFace {
 
     private function getStepCount() {
         var stepCount = ActivityMonitor.getInfo().steps;
-        return stepCount == null ? "--" : stepCount;
+        return stepCount;
     }
 
     private function getDistance() {
         var distance = ActivityMonitor.getInfo().distance;
         
         // Distance is in cm, convert to km
-        return distance == null ? "--" : distance/100000.0;
+        return distance == null ? null : distance/100000.0;
     }
 
 
     private function getHeartRate() {
         // initialize it to null
-        var heartRate = "--";
+        var heartRate = null;
 
         // Get the activity info if possible
         var info = Activity.getActivityInfo();
@@ -260,7 +268,7 @@ class JSONFaceView extends WatchUi.WatchFace {
         }
 
         // Could still be null if the device doesn't support it
-        return heartRate == null ? "--" : heartRate.toNumber();
+        return heartRate == null ? null : heartRate.toNumber();
     }
 
     private function getBattery() {
