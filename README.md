@@ -30,6 +30,9 @@ Tested and available for:
 
 ---
 
+Love JSONFace? Support this work with a donation to keep enhancing your Garmin watch experience! 💖
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/aguilarguisado)
+
 ## Credits
 
 - [FitbitClock Face inspiration](https://www.reddit.com/r/ProgrammerHumor/comments/196ctut/thisfitbitclockface/)
