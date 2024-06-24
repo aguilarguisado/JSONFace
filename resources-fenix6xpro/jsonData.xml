@@ -1,0 +1,15 @@
+<resources>
+  <jsonData id="screenReferences">
+    {
+      "HEADER_FILENAME_X": 60,
+      "HEADER_FILENAME_Y": 20, 
+      "HEADER_HEIGHT": 50, 
+      "LINE_START_X": 45, 
+      "LINE_START_Y": 70, 
+      "JSON_START_X": 55, 
+      "JSON_START_Y": 70, 
+      "JSON_GAP_SIZE": 5, 
+      "JSON_INDENT_SIZE": 10
+    }
+  </jsonData>
+</resources>

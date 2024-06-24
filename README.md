@@ -14,6 +14,7 @@ Tested and available for:
 - Forerunner 245/255/745/945/955.
 - Venu 3.
 - Vivoactive 4/4S/5.
+- Fenix 6/6Pro/6S/6X
 
 [Connect IQ Store page](https://apps.garmin.com/es-ES/apps/cf49a195-e5a9-48de-af23-83b21f9a4294)
 
